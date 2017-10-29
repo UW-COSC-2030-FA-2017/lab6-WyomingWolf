@@ -63,8 +63,45 @@ getWords(size_t numWords, size_t wordLength, string alphabet)
 double
 mostIsolated(vector<double> & number)
 {
-	// STUB  STUB  STUB
-	return -123.456;
+
+	double biggestGap = 0;
+	double gap1 = 0; //lower gap
+	double gap2 = 0; //upper gap
+	double mostIsolated;
+
+	for (int i = 0; i < number.size()-1; i++)
+	{ 
+		if (i == 0) //first number 
+		{
+			gap2 = abs(number[i + 1] - number[i]);
+			biggestGap = gap1 = gap2; //pass gap so it isnt recalculated
+		}
+		else if (i == number.size() - 1) //last number
+		{
+			if (gap1 > biggestGap)
+			{
+				mostIsolated = number[i];
+			}
+		}
+		else //numbers that aren't first or last
+		{
+			gap2 = abs(number[i + 1] - number[i]);
+			if (gap1 > biggestGap && gap2 > biggestGap) //if both gaps are larger than biggest gap the number is most isolated
+			{
+				if (gap1 <= gap2) //choose smallest gap
+				{
+					biggestGap = gap1;
+				}
+				else
+				{
+					biggestGap = gap2;
+				}
+				mostIsolated = number[i];
+			}
+			gap1 = gap2; //pass gap so it isnt recalculated
+		}
+	}
+	return mostIsolated;
 }
 
 
@@ -74,8 +111,25 @@ mostIsolated(vector<double> & number)
 int
 unmatched(list<string> & A, list<string> & B)
 {
-	// STUB  STUB  STUB
-	return -1;
+	int notContained = 0;
+	string current;
+	list<string>::iterator itB = B.begin();
+
+	for (list<string>::iterator itA = A.begin(); itA != A.end(); itA++)
+	{
+		if (*itA != *itB)
+		{
+			while (*itB < *itA)
+			{
+				itB++;
+			}
+			if (*itB != *itA)
+			{
+				notContained++;
+			}
+		}
+	}
+	return notContained;
 }
 
 
